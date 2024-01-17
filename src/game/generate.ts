@@ -110,6 +110,3 @@ function removeNumbers(board: number[][], numToRemove: number): void {
   }
 }
 
-// console.log(generateSudoku('Easy'))
-// console.log(generateSudoku('Medium'))
-// console.log(generateSudoku('Hard'))
