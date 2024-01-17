@@ -1,0 +1,10 @@
+.container {
+  width: fit-content;
+  margin: 0 auto;
+  border: 1px solid black;
+  display: flex;
+  display: grid;
+  grid: repeat(9, 1fr) / repeat(9, 1fr);
+  justify-content: center;  
+  border-collapse: collapse;
+}
