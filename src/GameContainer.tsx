@@ -4,19 +4,16 @@ import styles from './GameContainer.module.css'
 import { boardStore, solutionStore } from './stores/GameStore'
 import { generateSudoku } from './game/generate'
 
-
-
-
 const { solution, setSolution } = solutionStore
 const { board, setBoard } = boardStore
 const [selected, setSelected] = createSignal<{ x: number; y: number } | null>(null)
 export const GameContainer = () => {
-  onMount(()=>{
+  onMount(() => {
     const game = generateSudoku('Easy')
     setSolution(game.solution)
     setBoard(game.puzzle)
   })
-  
+
   const validateGuess = (row: number, col: number) => {
     return (guess: number) => {
       const solutionValue = solution[row][col]
@@ -29,9 +26,11 @@ export const GameContainer = () => {
   }
 
   const isSolved = () => board.flatMap((m) => m).every((m) => !!m)
-  createEffect(()=>{
-    if(isSolved()) {
-      alert('Yay! You did it!')
+  createEffect(() => {
+    if (isSolved()) {
+      setTimeout(() => {
+        alert('Yay! You did it!')
+      }, 1000)
     }
   })
 
