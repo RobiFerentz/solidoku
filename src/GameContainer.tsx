@@ -1,31 +1,23 @@
-import { For, Show, createComputed, createEffect, createSignal, onMount } from 'solid-js'
+import { For, Show, createEffect, createSignal, onMount } from 'solid-js'
 import { NumberSquare } from './NumberSquare'
 import styles from './GameContainer.module.css'
-import { boardStore, solutionStore } from './stores/GameStore'
-import { generateSudoku } from './game/generate'
+import { gameController } from './stores/GameStore'
 
-const { solution, setSolution } = solutionStore
-const { board, setBoard } = boardStore
-const [selected, setSelected] = createSignal<{ x: number; y: number } | null>(null)
 export const GameContainer = () => {
-  onMount(() => {
-    const game = generateSudoku('Easy')
-    setSolution(game.solution)
-    setBoard(game.puzzle)
-  })
-
+  const [selected, setSelected] = createSignal<{ x: number; y: number } | null>(null)
   const validateGuess = (row: number, col: number) => {
     return (guess: number) => {
-      const solutionValue = solution[row][col]
+      const solutionValue = gameController.solutionBoard[row][col]
       const isCorrect = guess === solutionValue
       if (isCorrect) {
-        setBoard(row, col, guess)
+        gameController.setCurrentBoardValue(row, col, guess)
       }
+      gameController.saveGame()
       return isCorrect
     }
   }
 
-  const isSolved = () => board.flatMap((m) => m).every((m) => !!m)
+  const isSolved = () => gameController.currentBoard.flatMap((m) => m).every((m) => !!m)
   createEffect(() => {
     if (isSolved()) {
       setTimeout(() => {
@@ -35,6 +27,7 @@ export const GameContainer = () => {
   })
 
   const handleSelect = ({ x, y }: { x: number; y: number }) => {
+    const board = gameController.currentBoard
     if (x < 0) x = board[0].length - 1
     if (y < 0) y = board.length - 1
     if (x >= board[0].length) x = 0
@@ -42,9 +35,9 @@ export const GameContainer = () => {
     setSelected({ x, y })
   }
   return (
-    <Show when={board.length} fallback="Loading...">
+    <Show when={gameController.currentBoard.length} fallback="Loading...">
       <div class={styles.container}>
-        <For each={board}>
+        <For each={gameController.currentBoard}>
           {(row, rowIndex) => (
             <For each={row}>
               {(item, colIndex) => (

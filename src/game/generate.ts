@@ -22,6 +22,8 @@ function getNumberToRemove(difficulty: Difficulty): number {
 export type Game = {
   solution: number[][]
   puzzle: number[][]
+  current: number[][]
+  mistakes: number
   difficulty: Difficulty
 }
 function shuffle(input: number[]) {
@@ -46,7 +48,7 @@ export function generateSudoku(difficulty: Difficulty): Game {
   // Remove numbers to create a puzzle
   removeNumbers(board, getNumberToRemove(difficulty)) // Adjust the number of numbers removed to control difficulty
 
-  return { solution, puzzle: board, difficulty }
+  return { solution, puzzle: board, difficulty, mistakes: 0, current: structuredClone(board) }
 }
 
 function solveSudoku(board: number[][]): boolean {
