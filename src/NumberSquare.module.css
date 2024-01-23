@@ -1,6 +1,6 @@
 .square {
   --sqw: min(calc((99vw - 1rem) / 9), 50px);
-  border: 1px solid #999;  
+  border: 1px solid #999;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +18,7 @@
   padding-top: 4px;
 }
 
-.label {  
+.label {
   height: 100%;
   width: 100%;
 }
@@ -33,7 +33,11 @@
   color: red;
 }
 
+.correct {
+  color: #3774be;
+}
+
 .selected {
   outline: none;
-  background-color: rgba(0,0,100, .2);
+  background-color: rgba(0, 0, 100, 0.2);
 }

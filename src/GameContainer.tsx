@@ -1,27 +1,25 @@
-import { For, Show, createEffect, createSignal, onMount } from 'solid-js'
+import { For, createEffect, createSignal } from 'solid-js'
 import { NumberSquare } from './NumberSquare'
 import styles from './GameContainer.module.css'
 import { gameController } from './stores/GameStore'
 
 export const GameContainer = () => {
   const [selected, setSelected] = createSignal<{ x: number; y: number } | null>(null)
-  const validateGuess = (row: number, col: number) => {
+  const handleGuess = (row: number, col: number) => {
     return (guess: number) => {
-      const solutionValue = gameController.solutionBoard[row][col]
-      const isCorrect = guess === solutionValue
-      if (isCorrect) {
-        gameController.setCurrentBoardValue(row, col, guess)
-      }
-      gameController.saveGame()
-      return isCorrect
+      gameController.setCurrentBoardValue(row, col, guess)
+      gameController.saveGame()      
     }
   }
+  
 
-  const isSolved = () => gameController.currentBoard.flatMap((m) => m).every((m) => !!m)
+  
   createEffect(() => {
-    if (isSolved()) {
+    if (gameController.isSolved) {
       setTimeout(() => {
         alert('Yay! You did it!')
+        gameController.deleteGame()
+        setSelected(null)
       }, 1000)
     }
   })
@@ -35,27 +33,34 @@ export const GameContainer = () => {
     setSelected({ x, y })
   }
   return (
-    <Show when={gameController.currentBoard.length} fallback="Loading...">
-      <div class={styles.container}>
-        <For each={gameController.currentBoard}>
-          {(row, rowIndex) => (
-            <For each={row}>
-              {(item, colIndex) => (
-                <NumberSquare
-                  tabIndex={(rowIndex() + 1) * (colIndex() + 1)}
-                  onGuess={validateGuess(rowIndex(), colIndex())}
-                  value={item}
-                  bottomBorderDark={(rowIndex() + 1) % 3 === 0}
-                  rightBorderDark={(colIndex() + 1) % 3 === 0}
-                  coords={{ x: colIndex(), y: rowIndex() }}
-                  isSelected={selected()?.x === colIndex() && selected()?.y === rowIndex()}
-                  onSelected={handleSelect}
-                />
-              )}
-            </For>
-          )}
-        </For>
-      </div>
-    </Show>
+    <>
+    <div class={styles.info}>
+      <span>Difficulty: {gameController.difficulty}</span>
+      <span>Mistakes: {gameController.mistakes}</span>
+    </div>
+    <div class={styles.container}>
+      <For each={gameController.currentBoard}>
+        {(row, rowIndex) => (
+          <For each={row}>
+            {(item, colIndex) => (
+              <NumberSquare
+                tabIndex={(rowIndex() + 1) * (colIndex() + 1)}
+                onGuess={handleGuess(rowIndex(), colIndex())}
+                value={item}
+                bottomBorderDark={(rowIndex() + 1) % 3 === 0}
+                rightBorderDark={(colIndex() + 1) % 3 === 0}
+                coords={{ x: colIndex(), y: rowIndex() }}
+                isSelected={selected()?.x === colIndex() && selected()?.y === rowIndex()}
+                onSelected={handleSelect}
+                isCorrect={gameController.isCorrectGuess(rowIndex(), colIndex(), item)}
+                isMistake={gameController.isMistakenGuess(rowIndex(), colIndex(), item)}
+                isFixed={gameController.isFixedValue(rowIndex(), colIndex())}
+              />
+            )}
+          </For>
+        )}
+      </For>
+    </div>
+    </>
   )
 }

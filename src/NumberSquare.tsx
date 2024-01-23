@@ -1,4 +1,4 @@
-import { Match, Switch, createEffect, createSignal, createUniqueId, on } from 'solid-js'
+import { createEffect } from 'solid-js'
 import styles from './NumberSquare.module.css'
 
 type Coords = {
@@ -9,16 +9,17 @@ type NumberSquareProps = {
   value: number
   rightBorderDark?: boolean
   bottomBorderDark?: boolean
-  onGuess: (guess: number) => boolean
+  onGuess: (guess: number) => void
   tabIndex: number
   coords: Coords
   isSelected: boolean
+  isCorrect: boolean
+  isMistake: boolean
+  isFixed: boolean
   onSelected: (coords: Coords) => void
 }
 
 export const NumberSquare = (props: NumberSquareProps) => {
-  const [val, setVal] = createSignal('')
-  const [mistake, setMistake] = createSignal(false)
   let root: HTMLDivElement | undefined
   const handleInput = (e: KeyboardEvent) => {
     e.stopPropagation()
@@ -41,16 +42,16 @@ export const NumberSquare = (props: NumberSquareProps) => {
       return
     }
 
-    if (props.value) return
+    if (props.isFixed) return
+
     const allowInputs = /([1-9]{1,1})/gi
 
     if (!allowInputs.test(e.key)) {
-      setVal('')
+      props.onGuess(0)
       return
     }
-    setVal(e.key)
     const guess = parseInt(e.key, 10)
-    setMistake(!props.onGuess(guess))
+    props.onGuess(guess)
   }
 
   const handleClick = (e: MouseEvent) => {
@@ -72,14 +73,15 @@ export const NumberSquare = (props: NumberSquareProps) => {
       classList={{
         [styles.rightBorderDark]: props.rightBorderDark,
         [styles.bottomBorderDark]: props.bottomBorderDark,
-        [styles.mistake]: mistake(),
         [styles.selected]: props.isSelected,
+        [styles.mistake]: props.isMistake && !props.isFixed,
+        [styles.correct]: props.isCorrect && !props.isFixed,
       }}
       tabIndex={props.tabIndex}
       onKeyDown={handleInput}
       onClick={handleClick}
     >
-      <div>{props.value || val()}</div>
+      <div>{props.value || ''}</div>
     </div>
   )
 }

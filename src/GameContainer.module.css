@@ -1,3 +1,12 @@
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 auto;
+  margin-block-end: 1rem;
+}
+
 .container {
   width: fit-content;
   margin: 0 auto;
@@ -5,6 +14,6 @@
   display: flex;
   display: grid;
   grid: repeat(9, 1fr) / repeat(9, 1fr);
-  justify-content: center;  
+  justify-content: center;
   border-collapse: collapse;
 }
