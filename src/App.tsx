@@ -1,15 +1,15 @@
-import { createSignal, type Component, Show, onMount } from 'solid-js'
-import { GameContainer } from './GameContainer'
-import { GameMenu } from './GameMenu'
-import { gameController } from './stores/GameStore'
-import { Header } from './Header'
+import { createSignal, type Component, Show, onMount } from 'solid-js';
+import { GameContainer } from './GameContainer';
+import { GameMenu } from './GameMenu';
+import { gameController } from './stores/GameStore';
+import { Header } from './Header';
 
 const App: Component = () => {
-  const [hasPreviousGame, setHasPreviousGame] = createSignal(false)
+  const [hasPreviousGame, setHasPreviousGame] = createSignal(false);
   onMount(() => {
-    setHasPreviousGame(gameController.loadGame())
-  })
-  const [showGame, setShowGame] = createSignal(false)
+    setHasPreviousGame(gameController.loadGame());
+  });
+  const [showGame, setShowGame] = createSignal(false);
 
   return (
     <>
@@ -25,7 +25,7 @@ const App: Component = () => {
         <GameContainer />
       </Show>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

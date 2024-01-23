@@ -30,7 +30,9 @@
     font-weight: bold;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: --fromColor 1s, --toColor 1s;
+    transition:
+      --fromColor 1s,
+      --toColor 1s;
     &:focus-visible {
       outline: white dashed 1px;
       outline-offset: -2px;

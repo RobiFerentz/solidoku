@@ -1,70 +1,71 @@
-import { createEffect } from 'solid-js'
-import styles from './NumberSquare.module.css'
+import { createEffect } from 'solid-js';
+import styles from './NumberSquare.module.css';
 
 type Coords = {
-  x: number
-  y: number
-}
+  x: number;
+  y: number;
+};
 type NumberSquareProps = {
-  value: number
-  rightBorderDark?: boolean
-  bottomBorderDark?: boolean
-  onGuess: (guess: number) => void
-  tabIndex: number
-  coords: Coords
-  isSelected: boolean
-  isCorrect: boolean
-  isMistake: boolean
-  isFixed: boolean
-  onSelected: (coords: Coords) => void
-}
+  value: number;
+  rightBorderDark?: boolean;
+  bottomBorderDark?: boolean;
+  onGuess: (guess: number) => void;
+  tabIndex: number;
+  coords: Coords;
+  isSelected: boolean;
+  isCorrect: boolean;
+  isMistake: boolean;
+  isFixed: boolean;
+  onSelected: (coords: Coords) => void;
+};
 
 export const NumberSquare = (props: NumberSquareProps) => {
-  let root: HTMLDivElement | undefined
+  let root: HTMLDivElement | undefined;
   const handleInput = (e: KeyboardEvent) => {
-    e.stopPropagation()
-    e.preventDefault()
+    e.stopPropagation();
+    e.preventDefault();
     if (e.key.startsWith('Arrow')) {
       switch (e.key) {
         case 'ArrowUp':
-          props.onSelected({ x: props.coords.x, y: props.coords.y - 1 })
-          break
+          props.onSelected({ x: props.coords.x, y: props.coords.y - 1 });
+          break;
         case 'ArrowDown':
-          props.onSelected({ x: props.coords.x, y: props.coords.y + 1 })
-          break
+          props.onSelected({ x: props.coords.x, y: props.coords.y + 1 });
+          break;
         case 'ArrowLeft':
-          props.onSelected({ x: props.coords.x - 1, y: props.coords.y })
-          break
+          props.onSelected({ x: props.coords.x - 1, y: props.coords.y });
+          break;
         case 'ArrowRight':
-          props.onSelected({ x: props.coords.x + 1, y: props.coords.y })
-          break
+          props.onSelected({ x: props.coords.x + 1, y: props.coords.y });
+          break;
       }
-      return
+      return;
     }
 
-    if (props.isFixed) return
+    if (props.isFixed) return;
 
-    const allowInputs = /([1-9]{1,1})/gi
+    const allowInputs = /([1-9]{1,1})/gi;
 
     if (!allowInputs.test(e.key)) {
-      props.onGuess(0)
-      return
+      props.onGuess(0);
+      return;
     }
-    const guess = parseInt(e.key, 10)
-    props.onGuess(guess)
-  }
+    const guess = parseInt(e.key, 10);
+    if (guess === props.value) return;
+    props.onGuess(guess);
+  };
 
   const handleClick = (e: MouseEvent) => {
-    e.stopPropagation()
-    e.preventDefault()
-    props.onSelected(props.coords)
-  }
+    e.stopPropagation();
+    e.preventDefault();
+    props.onSelected(props.coords);
+  };
 
   createEffect(() => {
     if (props.isSelected) {
-      root?.focus()
+      root?.focus();
     }
-  })
+  });
 
   return (
     <div
@@ -83,5 +84,5 @@ export const NumberSquare = (props: NumberSquareProps) => {
     >
       <div>{props.value || ''}</div>
     </div>
-  )
-}
+  );
+};
