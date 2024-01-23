@@ -8,9 +8,23 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --flame-red: #ff105f;
+  --flame-orange: #ffad06;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@property --fromColor {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #ff105f;
+}
+
+@property --toColor {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #ffad06;
 }

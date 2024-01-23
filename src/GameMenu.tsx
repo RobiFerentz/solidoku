@@ -1,14 +1,15 @@
-import { Show } from 'solid-js'
+import { For, Show } from 'solid-js'
 import { Difficulty } from './game/generate'
 import styles from './GameMenu.module.css'
 import { gameController } from './stores/GameStore'
 
 type GameMenuProps = {
-  canResume: boolean,
-  onNewGame: () => void,
-  onResumeGame: () => void,
+  canResume: boolean
+  onNewGame: () => void
+  onResumeGame: () => void
 }
 export const GameMenu = (props: GameMenuProps) => {
+  const levels = ['Easy', 'Medium', 'Hard'] as const
   const handleNewGame = (difficulty: Difficulty) => {
     gameController.createGame(difficulty)
     props.onNewGame()
@@ -19,23 +20,21 @@ export const GameMenu = (props: GameMenuProps) => {
   }
 
   return (
-    <div class={styles.container}>
-      <h1>Game Menu</h1>
+    <div class={styles.container}>      
       <div class={styles.buttonContainer}>
         <Show when={props.canResume}>
           <button type="button" onClick={handleResumeGame}>
             Resume Game
           </button>
         </Show>
-        <button type="button" onClick={() => handleNewGame('Easy')}>
-          New Game - Easy
-        </button>
-        <button type="button" onClick={() => handleNewGame('Medium')}>
-          New Game - Medium
-        </button>
-        <button type="button" onClick={() => handleNewGame('Hard')}>
-          New Game - Hard
-        </button>
+        <h2>New Game</h2>
+        <For each={levels}>
+          {(level) => (
+            <button type="button" onClick={() => handleNewGame(level)}>
+              {level}
+            </button>
+          )}
+        </For>
       </div>
     </div>
   )

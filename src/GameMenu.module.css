@@ -5,32 +5,25 @@
   justify-content: center;
 }
 
-@property --fromColor {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: #ff105f;
-}
-
-@property --toColor {
-  syntax: '<color>';
-  inherits: false;
-  initial-value: #ffad06;
-}
-
 .buttonContainer {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
   margin-top: 20px;
+  width: max-content;
 
-  button {    
+  * {
+    text-align: center;
+  }
+
+  button {
     margin-top: 1vh;
     padding: 1vh 2vh;
-    border-radius: 1rem;    
+    border-radius: 1rem;
     position: relative;
     border: none;
-    background: linear-gradient(to right,var(--fromColor),var(--toColor));
+    background: linear-gradient(to right, var(--fromColor), var(--toColor));
     background-repeat: repeat-x;
     background-position: 0 0;
     color: #fff;
@@ -40,11 +33,11 @@
     transition: --fromColor 1s, --toColor 1s;
     &:focus-visible {
       outline: white dashed 1px;
-      outline-offset: -2px; 
+      outline-offset: -2px;
     }
     &:hover {
-      --fromColor: #ffad06;
-      --toColor: #ff105f;            
+      --fromColor: var(--flame-orange);
+      --toColor: var(--flame-red);
     }
   }
 }
