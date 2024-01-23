@@ -6,15 +6,14 @@
   background-color: var(--flame-orange);
   color: #fff;
   padding: 15px; 
-  box-shadow: 0 0 3px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: -5px 0 3px 5px rgba(0, 0, 0, 0.2);
   background: linear-gradient(to right, var(--fromColor), var(--toColor));
 }
 
 .appName {
   display: inline-block;
   text-align: center;
-  font-size: 2rem;
-  font-family: Impact, sans-serif;
+  font-size: 2rem;  
   text-shadow: 2px 2px 4px #111;
   margin:0;
   letter-spacing: 0.6rem;

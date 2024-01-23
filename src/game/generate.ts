@@ -1,31 +1,11 @@
+import { Difficulties, Difficulty, Game } from "./types"
 const br = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-export type Difficulty = 'Easy' | 'Medium' | 'Hard'
+
 function getNumberToRemove(difficulty: Difficulty): number {
-  let min = 34,
-    max = 41
-  switch (difficulty) {
-    case 'Hard':
-      min = 58
-      max = 64
-      break
-    case 'Medium':
-      min = 42
-      max = 57
-      break
-    case 'Easy':
-    default:
-      break
-  }
+  const { min, max } = Difficulties[difficulty]
   return Math.floor(Math.random() * (max - min)) + min  
 }
 
-export type Game = {
-  solution: number[][]
-  puzzle: number[][]
-  current: number[][]
-  mistakes: number
-  difficulty: Difficulty
-}
 function shuffle(input: number[]) {
   // Shuffle the array using Fisher-Yates algorithm
   const row = [...input]

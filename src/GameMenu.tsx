@@ -1,5 +1,5 @@
 import { For, Show } from 'solid-js'
-import { Difficulty } from './game/generate'
+import { Difficulties, Difficulty } from './game/types'
 import styles from './GameMenu.module.css'
 import { gameController } from './stores/GameStore'
 
@@ -9,7 +9,7 @@ type GameMenuProps = {
   onResumeGame: () => void
 }
 export const GameMenu = (props: GameMenuProps) => {
-  const levels = ['Easy', 'Medium', 'Hard'] as const
+  const levels = Object.keys(Difficulties) as Difficulty[]
   const handleNewGame = (difficulty: Difficulty) => {
     gameController.createGame(difficulty)
     props.onNewGame()
