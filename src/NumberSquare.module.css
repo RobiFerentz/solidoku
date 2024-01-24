@@ -1,12 +1,28 @@
 .square {
-  --sqw: min(calc((99vw - 1rem) / 9), 50px);
+  --sqr-width: min(calc((99vw - 1rem) / 9), 50px);
   border: 1px solid #999;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--sqw);
-  width: var(--sqw);
+  height: var(--sqr-width);
+  width: var(--sqr-width);
   font-size: 1.2rem;
+  position: relative; 
+  
+  
+}
+
+.weird {
+  ::before {
+    content: '';
+    border: 2px solid black;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    width: calc(var(--sqr-width) * 3);
+    height: calc(var(--sqr-width) * 3);
+    z-index: -1;
+  }
 }
 
 .input {
@@ -24,7 +40,7 @@
 }
 
 .rightBorderDark {
-  border-right: 1px solid black;
+  border-right: 2px solid black;
 }
 .bottomBorderDark {
   border-bottom: 1px solid black;

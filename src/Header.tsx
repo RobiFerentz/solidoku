@@ -11,7 +11,7 @@ export const Header = (props: HeaderProps) => {
     <header class={styles.header}>
       <div class={styles.spacer}>
         <Show when={props.showBackButton}>
-          <button type="button" title="back to main menu" onClick={props.onBack}>
+          <button tabIndex={0} type="button" title="back to main menu" onClick={props.onBack}>
             ◀
           </button>
         </Show>

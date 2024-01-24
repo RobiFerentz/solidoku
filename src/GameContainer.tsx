@@ -50,7 +50,7 @@ export const GameContainer = (props: GameContainerProps) => {
             <For each={row}>
               {(item, colIndex) => (
                 <NumberSquare
-                  tabIndex={(rowIndex() + 1) * (colIndex() + 1)}
+                  tabIndex={(rowIndex() * gameController.currentBoard.length) + (colIndex() + 1)}
                   onGuess={handleGuess(rowIndex(), colIndex())}
                   value={item}
                   bottomBorderDark={(rowIndex() + 1) % 3 === 0}

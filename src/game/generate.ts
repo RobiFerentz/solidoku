@@ -1,4 +1,5 @@
 import { Difficulties, Difficulty, Game } from './types';
+const GRID_SIZE = 9;
 const br = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 function getNumberToRemove(difficulty: Difficulty): number {
@@ -16,7 +17,7 @@ function shuffle(input: number[]) {
   return row;
 }
 export function generateSudoku(difficulty: Difficulty): Game {
-  const board: number[][] = new Array(9).fill(0).map(() => new Array(9).fill(0));
+  const board: number[][] = new Array(GRID_SIZE).fill(0).map(() => new Array(GRID_SIZE).fill(0));
   board[0] = shuffle(br);
 
   // Solve the rest of the board using a backtracking algorithm
@@ -32,10 +33,10 @@ export function generateSudoku(difficulty: Difficulty): Game {
 }
 
 function solveSudoku(board: number[][]): boolean {
-  for (let row = 0; row < 9; row++) {
-    for (let col = 0; col < 9; col++) {
+  for (let row = 0; row < GRID_SIZE; row++) {
+    for (let col = 0; col < GRID_SIZE; col++) {
       if (board[row][col] === 0) {
-        for (let num = 1; num <= 9; num++) {
+        for (let num = 1; num <= GRID_SIZE; num++) {
           if (isValidPlacement(board, row, col, num)) {
             board[row][col] = num;
             if (solveSudoku(board)) {
@@ -53,14 +54,14 @@ function solveSudoku(board: number[][]): boolean {
 
 function isValidPlacement(board: number[][], row: number, col: number, num: number): boolean {
   // Check row
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < GRID_SIZE; i++) {
     if (board[row][i] === num) {
       return false;
     }
   }
 
   // Check column
-  for (let i = 0; i < 9; i++) {
+  for (let i = 0; i < GRID_SIZE; i++) {
     if (board[i][col] === num) {
       return false;
     }
@@ -80,11 +81,33 @@ function isValidPlacement(board: number[][], row: number, col: number, num: numb
   return true;
 }
 
+function removeOneFromEachRow(board: number[][]): number {
+  let row = 0;
+  for (row = 0; row < GRID_SIZE; row++) {
+    const col = Math.floor(Math.random() * GRID_SIZE);
+    board[row][col] = 0;
+  }
+  return row;
+}
+
+function removeOneFromEachColumn(board: number[][]): number {
+  let col = 0;
+  for (col = 0; col < GRID_SIZE; col++) {
+    const row = Math.floor(Math.random() * GRID_SIZE);
+    if (board[row][col]) {
+      board[row][col] = 0;
+    } else {
+      col--;
+    }
+  }
+  return col;
+}
+
 function removeNumbers(board: number[][], numToRemove: number): void {
-  let removed = 0;
+  let removed = removeOneFromEachRow(board) + removeOneFromEachColumn(board);  
   while (removed < numToRemove) {
-    const row = Math.floor(Math.random() * 9);
-    const col = Math.floor(Math.random() * 9);
+    const row = Math.floor(Math.random() * GRID_SIZE);
+    const col = Math.floor(Math.random() * GRID_SIZE);
     if (board[row][col] !== 0) {
       board[row][col] = 0;
       removed++;

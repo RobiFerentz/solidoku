@@ -70,15 +70,16 @@ export const NumberSquare = (props: NumberSquareProps) => {
   return (
     <div
       ref={root}
+      tabIndex={props.tabIndex}
       class={styles.square}
       classList={{
-        [styles.rightBorderDark]: props.rightBorderDark,
-        [styles.bottomBorderDark]: props.bottomBorderDark,
+        // [styles.rightBorderDark]: props.rightBorderDark,
+        // [styles.bottomBorderDark]: props.bottomBorderDark,
         [styles.selected]: props.isSelected,
         [styles.mistake]: props.isMistake && !props.isFixed,
         [styles.correct]: props.isCorrect && !props.isFixed,
+        [styles.weird]: props.coords.x % 3 === 0 && props.coords.y % 3 === 0,
       }}
-      tabIndex={props.tabIndex}
       onKeyDown={handleInput}
       onClick={handleClick}
     >
