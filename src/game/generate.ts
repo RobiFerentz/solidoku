@@ -104,7 +104,7 @@ function removeOneFromEachColumn(board: number[][]): number {
 }
 
 function removeNumbers(board: number[][], numToRemove: number): void {
-  let removed = removeOneFromEachRow(board) + removeOneFromEachColumn(board);  
+  let removed = removeOneFromEachRow(board) + removeOneFromEachColumn(board);
   while (removed < numToRemove) {
     const row = Math.floor(Math.random() * GRID_SIZE);
     const col = Math.floor(Math.random() * GRID_SIZE);
