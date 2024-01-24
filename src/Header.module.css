@@ -1,21 +1,36 @@
 .header {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   margin-block-end: 1rem;
   background-color: var(--flame-orange);
   color: #fff;
-  padding: 15px;
+  padding: 0.8rem 1rem;
+  height: 5rem;
   box-shadow: -5px 0 3px 5px rgba(0, 0, 0, 0.2);
   background: linear-gradient(to right, var(--fromColor), var(--toColor));
+
+  button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    padding-block-start: 0.3rem;
+    font-size: 2rem;
+    cursor: pointer;
+  }
 }
 
 .appName {
-  display: inline-block;
+  display: flex;
   text-align: center;
   font-size: 2rem;
   text-shadow: 2px 2px 4px #111;
   margin: 0;
   letter-spacing: 0.6rem;
   text-transform: uppercase;
+  align-items: center;
+}
+
+.spacer {
+  min-width: 3rem;
 }

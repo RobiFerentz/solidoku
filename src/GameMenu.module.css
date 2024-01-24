@@ -17,10 +17,18 @@
     text-align: center;
   }
 
+  h2 {
+    margin-block: 2rem 1rem;
+    background: linear-gradient(to right, var(--fromColor), var(--toColor));
+    background-clip: text;
+    color: transparent;
+    text-shadow: 2px 2px 1rem rgba(0, 0, 0, 0.4);
+  }
+
   button {
-    margin-top: 1vh;
-    padding: 1vh 2vh;
-    border-radius: 1rem;
+    margin-top: 1rem;
+    padding: 0.8rem 1.8rem;
+    border-radius: 0.6em;
     position: relative;
     border: none;
     background: linear-gradient(to right, var(--fromColor), var(--toColor));
@@ -30,7 +38,9 @@
     font-weight: bold;
     font-size: 1.2rem;
     cursor: pointer;
+    box-shadow: 0px 4px 2px #111;
     transition:
+      box-shadow 0.2s,
       --fromColor 1s,
       --toColor 1s;
     &:focus-visible {
@@ -40,6 +50,9 @@
     &:hover {
       --fromColor: var(--flame-orange);
       --toColor: var(--flame-red);
+    }
+    &:active {
+      box-shadow: 0px 2px 2px #111;
     }
   }
 }

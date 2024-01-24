@@ -3,7 +3,10 @@ import { NumberSquare } from './NumberSquare';
 import styles from './GameContainer.module.css';
 import { gameController } from './stores/GameStore';
 
-export const GameContainer = () => {
+type GameContainerProps = {
+  onGameSolved: () => void;
+};
+export const GameContainer = (props: GameContainerProps) => {
   const [selected, setSelected] = createSignal<{ x: number; y: number } | null>(null);
   const handleGuess = (row: number, col: number) => {
     return (guess: number) => {
@@ -21,6 +24,7 @@ export const GameContainer = () => {
         alert('Yay! You did it!');
         gameController.deleteGame();
         setSelected(null);
+        props.onGameSolved();
       }, 1000);
     }
   });

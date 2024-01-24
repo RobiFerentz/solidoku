@@ -11,9 +11,14 @@ const App: Component = () => {
   });
   const [showGame, setShowGame] = createSignal(false);
 
+  const handleGameSolved = () => {
+    setShowGame(false);
+    setHasPreviousGame(false);
+  };
+
   return (
     <>
-      <Header />
+      <Header onBack={() => setShowGame(false)} showBackButton={showGame()} />
       <Show when={!showGame()}>
         <GameMenu
           canResume={hasPreviousGame()}
@@ -22,7 +27,7 @@ const App: Component = () => {
         />
       </Show>
       <Show when={showGame()}>
-        <GameContainer />
+        <GameContainer onGameSolved={handleGameSolved} />
       </Show>
     </>
   );
