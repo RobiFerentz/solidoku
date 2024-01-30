@@ -1,4 +1,4 @@
-import { createSignal, type Component, Show, onMount } from 'solid-js';
+import { createSignal, type Component, Show, onMount, onCleanup } from 'solid-js';
 import { GameContainer } from './GameContainer';
 import { GameMenu } from './GameMenu';
 import { gameController } from './stores/GameStore';
@@ -6,19 +6,38 @@ import { Header } from './Header';
 
 const App: Component = () => {
   const [hasPreviousGame, setHasPreviousGame] = createSignal(false);
+  const [showGame, setShowGame] = createSignal(false);
+
+  const handleStorageEvent = (event: StorageEvent) => {
+    if (event.key === 'game' && event.storageArea === localStorage) {
+      const hasGame = gameController.loadGame();
+      setHasPreviousGame(hasGame);
+      setShowGame(hasGame);
+    }
+  };
+
   onMount(() => {
     setHasPreviousGame(gameController.loadGame());
+    window.addEventListener('storage', handleStorageEvent);
   });
-  const [showGame, setShowGame] = createSignal(false);
 
   const handleGameSolved = () => {
     setShowGame(false);
     setHasPreviousGame(false);
   };
 
+  const handleBack = () => {
+    setShowGame(false);
+    setHasPreviousGame(gameController.loadGame());
+  };
+
+  onCleanup(() => {
+    window.removeEventListener('storage', handleStorageEvent);
+  });
+
   return (
     <>
-      <Header onBack={() => setShowGame(false)} showBackButton={showGame()} />
+      <Header onBack={handleBack} showBackButton={showGame()} />
       <Show when={!showGame()}>
         <GameMenu
           canResume={hasPreviousGame()}

@@ -17,7 +17,7 @@ function shuffle(input: number[]) {
   return row;
 }
 export function generateSudoku(difficulty: Difficulty): Game {
-  const board: number[][] = new Array(GRID_SIZE).fill(0).map(() => new Array(GRID_SIZE).fill(0));
+  const board: number[][] = Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => 0)); // Create a 9x9 2D array filled with 0s
   board[0] = shuffle(br);
 
   // Solve the rest of the board using a backtracking algorithm
