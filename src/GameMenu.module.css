@@ -28,6 +28,7 @@
   button {
     margin-top: 1rem;
     padding: 0.8rem 1.8rem;
+    min-width: 12rem;
     border-radius: 0.6em;
     position: relative;
     border: none;
