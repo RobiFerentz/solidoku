@@ -63,7 +63,7 @@ export const GameContainer = (props: GameContainerProps) => {
           )}
         </For>
       </div>
-      <WinModal open={true} onClose={onWinConfirm} />
+      <WinModal open={gameController.isSolved} onClose={onWinConfirm} />
     </>
   );
 };
