@@ -82,9 +82,10 @@ function isValidPlacement(board: number[][], row: number, col: number, num: numb
 }
 
 function removeOneFromEachRow(board: number[][]): number {
+  const numbersToRemove = shuffle(br);  
   let row = 0;
   for (row = 0; row < GRID_SIZE; row++) {
-    const col = Math.floor(Math.random() * GRID_SIZE);
+    const col = board[row].findIndex((num) => num === numbersToRemove[row]);
     board[row][col] = 0;
   }
   return row;

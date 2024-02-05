@@ -26,12 +26,17 @@ export const GameContainer = (props: GameContainerProps) => {
   };
 
   const handleSelect = ({ x, y }: { x: number; y: number }) => {
+    if (!gameController.currentBoard?.length) return;
     const board = gameController.currentBoard;
     if (x < 0) x = board[0].length - 1;
     if (y < 0) y = board.length - 1;
     if (x >= board[0].length) x = 0;
     if (y >= board.length) y = 0;
     setSelected({ x, y });
+  };
+
+  const isSelected = (x: number, y: number) => {
+    return selected()?.x === x && selected()?.y === y;
   };
 
   return (
@@ -52,7 +57,7 @@ export const GameContainer = (props: GameContainerProps) => {
                   bottomBorderDark={(rowIndex() + 1) % 3 === 0}
                   rightBorderDark={(colIndex() + 1) % 3 === 0}
                   coords={{ x: colIndex(), y: rowIndex() }}
-                  isSelected={selected()?.x === colIndex() && selected()?.y === rowIndex()}
+                  isSelected={isSelected(colIndex(), rowIndex())}
                   onSelected={handleSelect}
                   isCorrect={gameController.isCorrectGuess(rowIndex(), colIndex(), item)}
                   isMistake={gameController.isMistakenGuess(rowIndex(), colIndex(), item)}
