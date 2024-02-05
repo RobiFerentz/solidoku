@@ -17,7 +17,9 @@ export const WinModal = (props: WinModalProps) => {
   return (
     <dialog class={styles.container} ref={ref}>
       <div>You did it!!!</div>
-      <div><button onClick={props.onClose}>Done</button></div>
+      <div>
+        <button onClick={props.onClose}>Done</button>
+      </div>
     </dialog>
   );
 };

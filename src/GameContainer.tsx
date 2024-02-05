@@ -17,7 +17,7 @@ export const GameContainer = (props: GameContainerProps) => {
       }
       gameController.saveGame();
     };
-  };  
+  };
 
   const onWinConfirm = () => {
     props.onGameSolved();
