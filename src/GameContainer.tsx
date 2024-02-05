@@ -1,7 +1,8 @@
-import { For, createEffect, createSignal } from 'solid-js';
+import { For, createSignal } from 'solid-js';
 import { NumberSquare } from './NumberSquare';
 import styles from './GameContainer.module.css';
 import { gameController } from './stores/GameStore';
+import { WinModal } from './WinModal';
 
 type GameContainerProps = {
   onGameSolved: () => void;
@@ -16,18 +17,13 @@ export const GameContainer = (props: GameContainerProps) => {
       }
       gameController.saveGame();
     };
-  };
+  };  
 
-  createEffect(() => {
-    if (gameController.isSolved) {
-      setTimeout(() => {
-        alert('Yay! You did it!');
-        gameController.deleteGame();
-        setSelected(null);
-        props.onGameSolved();
-      }, 1000);
-    }
-  });
+  const onWinConfirm = () => {
+    props.onGameSolved();
+    gameController.deleteGame();
+    setSelected(null);
+  };
 
   const handleSelect = ({ x, y }: { x: number; y: number }) => {
     const board = gameController.currentBoard;
@@ -67,6 +63,7 @@ export const GameContainer = (props: GameContainerProps) => {
           )}
         </For>
       </div>
+      <WinModal open={true} onClose={onWinConfirm} />
     </>
   );
 };

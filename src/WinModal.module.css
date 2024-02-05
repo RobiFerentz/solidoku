@@ -1,0 +1,17 @@
+.container {
+  border: 1px solid transparent;
+  border-radius: 1rem;
+  padding: 2rem;
+  font-size: 2rem;
+  box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+  top: -5rem;
+
+  button {
+    font-size: 2rem;
+    margin-block-start: 1rem;
+    width: 100%;
+    border-radius: 0.3rem;
+    background-color: var(--flame-orange);
+    border: 1px solid var(--flame-red);
+  }
+}
