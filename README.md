@@ -1,34 +1,37 @@
+
+# What is this?
+
+This is simple sudoku game built with [Solid](https://solidjs.com) and [TypeScript](https://www.typescriptlang.org/). I've named it Solidoku for obvious reasons.
+
+The game is playable [here](https://robiferentz.github.io/solidoku/) using github pages.
+
+## Why?
+I love solving sudoku puzzles and play it on my phone. My daughter challenged me to make my own version so I did. I used the opportunity to learn Solid.
+
 ## Usage
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
-
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+To get started, clone the repository and install the dependencies:
 
 ```bash
-$ npm install # or pnpm install or yarn install
+$ cd solidoku
+$ pnpm install # or npm install or yarn install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+Run the game locally in dev mode:
 
-## Available Scripts
+```bash
+$ pnpm dev # or pnpm start or npm start etc.
+```
 
-In the project directory, you can run:
+Go to [http://localhost:3000/solidoku/](http://localhost:3000/solidoku/) to view it in the browser.
 
-### `npm run dev` or `npm start`
+## Features
+- Playable classic sudoku game (9x9)
+- Different difficulty levels
+- Resumable game state (local, no server)
+- KBD navigation (arrow keys)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+## Future Plans
+ - Timer
+ - Settings (dark mode, maximum mistakes, etc.)
+ - My daughter being interested in coding, maybe? 😅
