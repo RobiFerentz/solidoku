@@ -1,7 +1,7 @@
 
 # What is this?
 
-This is simple sudoku game built with [Solid](https://solidjs.com) and [TypeScript](https://www.typescriptlang.org/). I've named it Solidoku for obvious reasons.
+This is a simple sudoku game built with [Solid](https://solidjs.com) and [TypeScript](https://www.typescriptlang.org/). I've named it Solidoku for obvious reasons.
 
 The game is playable [here](https://robiferentz.github.io/solidoku/) using github pages.
 
