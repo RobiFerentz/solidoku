@@ -52,7 +52,7 @@ Solid 1.x sudoku game; nothing in its behavior should change.
 | `@types/node` | not present | 24.19.2 (required by Vite 8's types) |
 | `solid-devtools` | 0.29.3 | removed (disabled, incompatible) |
 | Node (`.nvmrc` / CI) | 21 / 18 | 24 LTS |
-| pnpm lockfile | v6.0 | regenerated with pnpm 12 |
+| pnpm lockfile | v6.0 | regenerated with pnpm 12; `packageManager` pins `pnpm@12.15.0` |
 | Actions | checkout@v4, setup-node@v3, pnpm@v2, cache@v3, configure-pages@v3, upload-pages-artifact@v2, deploy-pages@v2 | checkout@v7, setup-node@v7, pnpm@v6, configure-pages@v6, upload-pages-artifact@v5, deploy-pages@v5 |
 
 Details:
