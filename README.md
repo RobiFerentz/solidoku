@@ -10,17 +10,22 @@ I love solving sudoku puzzles and play it on my phone. My daughter challenged me
 
 ## Usage
 
+You will need:
+
+- Node.js 24 LTS (Vite 8 requires Node 22.12 or newer)
+- pnpm 12.15.0 — run `corepack enable` to use the version pinned in `packageManager`
+
 To get started, clone the repository and install the dependencies:
 
 ```bash
 $ cd solidoku
-$ pnpm install # or npm install or yarn install
+$ pnpm install
 ```
 
 Run the game locally in dev mode:
 
 ```bash
-$ pnpm dev # or pnpm start or npm start etc.
+$ pnpm dev # or pnpm start
 ```
 
 Go to [http://localhost:3000/solidoku/](http://localhost:3000/solidoku/) to view it in the browser.
