@@ -12,12 +12,12 @@ export const Difficulties = {
     max: 54,
   },
   Expert: {
-    min: 55,
-    max: 59,
+    min: 48,
+    max: 52,
   },
   Insane: {
-    min: 60,
-    max: 64,
+    min: 53,
+    max: 58,
   },
 } as const;
 export type Difficulty = keyof typeof Difficulties;

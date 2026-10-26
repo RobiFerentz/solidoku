@@ -2,6 +2,7 @@ import { createStore, reconcile } from 'solid-js/store';
 import { generateSudoku } from '../game/generate';
 import { Difficulty, Game } from '../game/types';
 import { createSignal } from 'solid-js';
+import { isSolvedBoard } from '../game/win-check';
 
 const [puzzle, setPuzzle] = createStore<number[][]>([]);
 const [solution, setSolution] = createStore<number[][]>([]);
@@ -48,7 +49,7 @@ class GameController {
   }
 
   get isSolved(): boolean {
-    return gameController.currentBoard.flatMap((m) => m).every((m) => !!m);
+    return isSolvedBoard(gameController.currentBoard, gameController.solutionBoard);
   }
 
   setCurrentBoardValue(row: number, col: number, value: number): void {
