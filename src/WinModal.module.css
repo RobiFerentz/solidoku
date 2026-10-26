@@ -5,13 +5,46 @@
   font-size: 2rem;
   box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
   top: -5rem;
+  background-color: var(--surface);
+  color: var(--text);
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 
   button {
-    font-size: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
     margin-block-start: 1rem;
+    padding: 0.8rem 1.8rem;
     width: 100%;
-    border-radius: 0.3rem;
-    background-color: var(--flame-orange);
-    border: 1px solid var(--flame-red);
+    border: none;
+    border-radius: 0.6rem;
+    background: linear-gradient(to right, var(--fromColor), var(--toColor));
+    background-repeat: repeat-x;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0px 4px 2px var(--shadow);
+    transition:
+      box-shadow 0.2s,
+      --fromColor 1s,
+      --toColor 1s;
+
+    &:focus-visible {
+      outline: 2px solid var(--text);
+      outline-offset: 2px;
+    }
+
+    &:hover {
+      --fromColor: var(--flame-orange);
+      --toColor: var(--flame-red);
+    }
+
+    &:active {
+      box-shadow: 0px 2px 2px var(--shadow);
+    }
   }
 }

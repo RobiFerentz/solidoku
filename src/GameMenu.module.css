@@ -39,7 +39,7 @@
     font-weight: bold;
     font-size: 1.2rem;
     cursor: pointer;
-    box-shadow: 0px 4px 2px #111;
+    box-shadow: 0px 4px 2px var(--shadow);
     transition:
       box-shadow 0.2s,
       --fromColor 1s,
@@ -53,7 +53,7 @@
       --toColor: var(--flame-red);
     }
     &:active {
-      box-shadow: 0px 2px 2px #111;
+      box-shadow: 0px 2px 2px var(--shadow);
     }
   }
 }

@@ -1,6 +1,6 @@
 .square {
   --sqr-width: min(calc((99vw - 1rem) / 9), 50px);
-  border: 1px solid #999;
+  border: 1px solid var(--grid-line);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -8,18 +8,23 @@
   width: var(--sqr-width);
   font-size: 1.2rem;
   position: relative;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
 }
 
 .weird {
-  ::before {
+  &::before {
     content: '';
-    border: 2px solid black;
+    border: 2px solid var(--grid-line-strong);
     position: absolute;
     top: -3px;
     left: -3px;
     width: calc(var(--sqr-width) * 3);
     height: calc(var(--sqr-width) * 3);
-    z-index: -1;
+    pointer-events: none;
+    transition: border-color 0.4s ease;
   }
 }
 
@@ -38,20 +43,20 @@
 }
 
 .rightBorderDark {
-  border-right: 2px solid black;
+  border-right: 2px solid var(--grid-line-strong);
 }
 .bottomBorderDark {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--grid-line-strong);
 }
 .mistake {
-  color: red;
+  color: var(--mistake);
 }
 
 .correct {
-  color: #3774be;
+  color: var(--correct);
 }
 
 .selected {
   outline: none;
-  background-color: rgba(0, 0, 100, 0.2);
+  background-color: var(--selected);
 }
