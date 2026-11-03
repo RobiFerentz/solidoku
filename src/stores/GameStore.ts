@@ -65,12 +65,29 @@ class GameController {
   }
 
   loadGame(): boolean {
-    const game = localStorage.getItem('game');
-    if (game) {
-      this.storeGame(JSON.parse(atob(game)));
+    const raw = localStorage.getItem('game');
+    if (!raw) return false;
+
+    try {
+      const parsed = JSON.parse(atob(raw));
+      if (
+        !parsed ||
+        !Array.isArray(parsed.solution) ||
+        !Array.isArray(parsed.puzzle) ||
+        !Array.isArray(parsed.current) ||
+        typeof parsed.difficulty !== 'string' ||
+        typeof parsed.mistakes !== 'number'
+      ) {
+        localStorage.removeItem('game');
+        return false;
+      }
+
+      this.storeGame(parsed);
       return true;
+    } catch {
+      localStorage.removeItem('game');
+      return false;
     }
-    return false;
   }
 
   deleteGame(): void {

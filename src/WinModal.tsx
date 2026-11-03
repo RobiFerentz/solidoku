@@ -9,9 +9,13 @@ export const WinModal = (props: WinModalProps) => {
   createEffect(() => {
     if (!ref) return;
     if (props.open) {
-      ref.showModal();
+      if (typeof ref.showModal === 'function') {
+        ref.showModal();
+      }
     } else {
-      ref.close();
+      if (typeof ref.close === 'function') {
+        ref.close();
+      }
     }
   });
   return (

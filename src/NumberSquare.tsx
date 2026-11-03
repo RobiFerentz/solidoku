@@ -7,8 +7,6 @@ type Coords = {
 };
 type NumberSquareProps = {
   value: number;
-  rightBorderDark?: boolean;
-  bottomBorderDark?: boolean;
   onGuess: (guess: number) => void;
   tabIndex: number;
   coords: Coords;
@@ -19,12 +17,14 @@ type NumberSquareProps = {
   onSelected: (coords: Coords) => void;
 };
 
+const CLEAR_KEYS = new Set(['Backspace', 'Delete', '0', ' ']);
+const DIGIT_KEYS = new Set(['1', '2', '3', '4', '5', '6', '7', '8', '9']);
+
 export const NumberSquare = (props: NumberSquareProps) => {
   let root: HTMLDivElement | undefined;
   const handleInput = (e: KeyboardEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
     if (e.key.startsWith('Arrow')) {
+      e.preventDefault();
       switch (e.key) {
         case 'ArrowUp':
           props.onSelected({ x: props.coords.x, y: props.coords.y - 1 });
@@ -44,15 +44,19 @@ export const NumberSquare = (props: NumberSquareProps) => {
 
     if (props.isFixed) return;
 
-    const allowInputs = /([1-9]{1,1})/gi;
-
-    if (!allowInputs.test(e.key)) {
+    if (CLEAR_KEYS.has(e.key)) {
+      e.preventDefault();
       props.onGuess(0);
       return;
     }
-    const guess = parseInt(e.key, 10);
-    if (guess === props.value) return;
-    props.onGuess(guess);
+
+    if (DIGIT_KEYS.has(e.key)) {
+      e.preventDefault();
+      const guess = parseInt(e.key, 10);
+      if (guess === props.value) return;
+      props.onGuess(guess);
+      return;
+    }
   };
 
   const handleClick = (e: MouseEvent) => {
@@ -70,11 +74,13 @@ export const NumberSquare = (props: NumberSquareProps) => {
   return (
     <div
       ref={root}
+      role="gridcell"
+      aria-rowindex={props.coords.y + 1}
+      aria-colindex={props.coords.x + 1}
+      aria-label={`Row ${props.coords.y + 1}, Column ${props.coords.x + 1}, ${props.value ? `value ${props.value}` : 'empty'}`}
       tabIndex={props.tabIndex}
       class={styles.square}
       classList={{
-        // [styles.rightBorderDark]: props.rightBorderDark,
-        // [styles.bottomBorderDark]: props.bottomBorderDark,
         [styles.selected]: props.isSelected,
         [styles.mistake]: props.isMistake && !props.isFixed,
         [styles.correct]: props.isCorrect && !props.isFixed,

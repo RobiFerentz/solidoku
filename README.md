@@ -38,5 +38,5 @@ Go to [http://localhost:3000/solidoku/](http://localhost:3000/solidoku/) to view
 
 ## Future Plans
  - Timer
- - Settings (dark mode, maximum mistakes, etc.)
+ - Maximum mistakes / lives mode
  - My daughter being interested in coding, maybe? 😅

@@ -1,5 +1,6 @@
 import { For, createSignal } from 'solid-js';
 import { NumberSquare } from './NumberSquare';
+import { NumberPad } from './NumberPad';
 import styles from './GameContainer.module.css';
 import { gameController } from './stores/GameStore';
 import { WinModal } from './WinModal';
@@ -17,6 +18,26 @@ export const GameContainer = (props: GameContainerProps) => {
       }
       gameController.saveGame();
     };
+  };
+
+  const handlePadInput = (digit: number) => {
+    const sel = selected();
+    if (!sel) return;
+    if (gameController.isFixedValue(sel.y, sel.x)) return;
+    handleGuess(sel.y, sel.x)(digit);
+  };
+
+  const handlePadErase = () => {
+    const sel = selected();
+    if (!sel) return;
+    if (gameController.isFixedValue(sel.y, sel.x)) return;
+    handleGuess(sel.y, sel.x)(0);
+  };
+
+  const isPadDisabled = () => {
+    const sel = selected();
+    if (!sel) return true;
+    return gameController.isFixedValue(sel.y, sel.x);
   };
 
   const onWinConfirm = () => {
@@ -45,7 +66,7 @@ export const GameContainer = (props: GameContainerProps) => {
         <span>Difficulty: {gameController.difficulty}</span>
         <span>Mistakes: {gameController.mistakes}</span>
       </div>
-      <div class={styles.container}>
+      <div class={styles.container} role="grid" aria-label="Sudoku board">
         <For each={gameController.currentBoard}>
           {(row, rowIndex) => (
             <For each={row}>
@@ -54,8 +75,6 @@ export const GameContainer = (props: GameContainerProps) => {
                   tabIndex={rowIndex() * gameController.currentBoard.length + (colIndex() + 1)}
                   onGuess={handleGuess(rowIndex(), colIndex())}
                   value={item}
-                  bottomBorderDark={(rowIndex() + 1) % 3 === 0}
-                  rightBorderDark={(colIndex() + 1) % 3 === 0}
                   coords={{ x: colIndex(), y: rowIndex() }}
                   isSelected={isSelected(colIndex(), rowIndex())}
                   onSelected={handleSelect}
@@ -68,6 +87,7 @@ export const GameContainer = (props: GameContainerProps) => {
           )}
         </For>
       </div>
+      <NumberPad onInput={handlePadInput} onErase={handlePadErase} disabled={isPadDisabled()} />
       <WinModal open={gameController.isSolved} onClose={onWinConfirm} />
     </>
   );
