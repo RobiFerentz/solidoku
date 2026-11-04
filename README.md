@@ -1,13 +1,13 @@
 
 # Solidoku
 
-🎮 **Play live:** [robiferentz.github.io/solidoku](https://robiferentz.github.io/solidoku/)
+🎮 **Play live:** <a href="https://robiferentz.github.io/solidoku/" target="_blank" rel="noopener noreferrer">robiferentz.github.io/solidoku</a>
 
 ## What is this?
 
 This is a simple sudoku game built with [Solid](https://solidjs.com) and [TypeScript](https://www.typescriptlang.org/). I've named it Solidoku for obvious reasons.
 
-The game is playable [here](https://robiferentz.github.io/solidoku/) using GitHub Pages.
+The game is playable <a href="https://robiferentz.github.io/solidoku/" target="_blank" rel="noopener noreferrer">here</a> using GitHub Pages.
 
 ## Why?
 I love solving sudoku puzzles and play it on my phone. My daughter challenged me to make my own version so I did. I used the opportunity to learn Solid.
