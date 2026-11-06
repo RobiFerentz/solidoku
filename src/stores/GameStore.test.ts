@@ -68,4 +68,48 @@ describe('GameStore', () => {
     expect(gameController.isMistakenGuess(0, 0, wrongVal)).toBe(true);
     expect(gameController.isMistakenGuess(0, 0, 0)).toBe(false);
   });
+
+  it('starts new game with elapsed 0', () => {
+    gameController.createGame('Easy');
+    expect(gameController.elapsedSeconds).toBe(0);
+  });
+
+  it('tickSecond increments and save/load round-trips elapsed', () => {
+    gameController.createGame('Easy');
+    gameController.tickSecond();
+    gameController.tickSecond();
+    gameController.saveGame();
+    gameController.tickSecond();
+    expect(gameController.loadGame()).toBe(true);
+    expect(gameController.elapsedSeconds).toBe(2);
+  });
+
+  it('old save without elapsed loads defaulting to 0', () => {
+    gameController.createGame('Easy');
+    const raw = JSON.parse(atob(localStorage.getItem('game')!));
+    delete raw.elapsed;
+    localStorage.setItem('game', btoa(JSON.stringify(raw)));
+    expect(gameController.loadGame()).toBe(true);
+    expect(gameController.elapsedSeconds).toBe(0);
+  });
+
+  it.each([['65'], [null], [NaN], [-5]])('wrong-type elapsed %p loads defaulting to 0', (bad) => {
+    gameController.createGame('Easy');
+    const raw = JSON.parse(atob(localStorage.getItem('game')!));
+    raw.elapsed = bad;
+    localStorage.setItem('game', btoa(JSON.stringify(raw)));
+    expect(gameController.loadGame()).toBe(true);
+    expect(gameController.elapsedSeconds).toBe(0);
+    gameController.tickSecond();
+    expect(gameController.elapsedSeconds).toBe(1);
+  });
+
+  it('fractional elapsed floors to whole seconds', () => {
+    gameController.createGame('Easy');
+    const raw = JSON.parse(atob(localStorage.getItem('game')!));
+    raw.elapsed = 1.9;
+    localStorage.setItem('game', btoa(JSON.stringify(raw)));
+    expect(gameController.loadGame()).toBe(true);
+    expect(gameController.elapsedSeconds).toBe(1);
+  });
 });

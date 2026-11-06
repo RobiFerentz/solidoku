@@ -1,8 +1,10 @@
 import { createEffect } from 'solid-js';
 import styles from './WinModal.module.css';
+import { formatTime } from './game/format-time';
 type WinModalProps = {
   open: boolean;
   onClose: () => void;
+  elapsedSeconds: number;
 };
 export const WinModal = (props: WinModalProps) => {
   let ref: HTMLDialogElement | undefined;
@@ -21,6 +23,7 @@ export const WinModal = (props: WinModalProps) => {
   return (
     <dialog class={styles.container} ref={ref}>
       <div>You did it!!!</div>
+      <div>Your time: {formatTime(props.elapsedSeconds)}</div>
       <div>
         <button onClick={props.onClose}>Done</button>
       </div>

@@ -28,4 +28,5 @@ export type Game = {
   current: number[][];
   mistakes: number;
   difficulty: Difficulty;
+  elapsed: number; // seconds elapsed
 };

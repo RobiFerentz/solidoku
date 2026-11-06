@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'solid-js/web';
 import { GameContainer } from './GameContainer';
 import { gameController } from './stores/GameStore';
@@ -70,6 +70,67 @@ describe('GameContainer with NumberPad', () => {
     } finally {
       dispose();
       container.remove();
+    }
+  });
+
+  it('displays timer MM:SS and advances each second while unsolved', async () => {
+    vi.useFakeTimers();
+    try {
+      const container = document.createElement('div');
+      document.body.append(container);
+      const dispose = render(() => <GameContainer onGameSolved={() => {}} />, container);
+      try {
+        const info = container.querySelector('[class*="info"]')!.textContent;
+        expect(info).toMatch(/00:00/);
+        const before = gameController.elapsedSeconds;
+        await vi.advanceTimersByTimeAsync(3000);
+        expect(gameController.elapsedSeconds).toBe(before + 3);
+        expect(container.querySelector('[class*="info"]')!.textContent).toMatch(/00:0/);
+      } finally {
+        dispose();
+        container.remove();
+      }
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('does not stack intervals under rapid blur/focus cycles', async () => {
+    vi.useFakeTimers();
+    try {
+      const container = document.createElement('div');
+      document.body.append(container);
+      const dispose = render(() => <GameContainer onGameSolved={() => {}} />, container);
+      try {
+        const before = gameController.elapsedSeconds;
+        for (let i = 0; i < 5; i++) {
+          window.dispatchEvent(new Event('blur'));
+          window.dispatchEvent(new Event('focus'));
+        }
+        await vi.advanceTimersByTimeAsync(3000);
+        expect(gameController.elapsedSeconds).toBe(before + 3);
+      } finally {
+        dispose();
+        container.remove();
+      }
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('stops ticking after unmount (exit to menu)', async () => {
+    vi.useFakeTimers();
+    try {
+      const container = document.createElement('div');
+      document.body.append(container);
+      const dispose = render(() => <GameContainer onGameSolved={() => {}} />, container);
+      const before = gameController.elapsedSeconds;
+      dispose();
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(gameController.elapsedSeconds).toBe(before);
+      container.remove();
+    } finally {
+      vi.useRealTimers();
     }
   });
 });
