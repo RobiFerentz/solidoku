@@ -18,7 +18,8 @@ class GameController {
     setCurrent(reconcile(game.current));
     setDifficulty(game.difficulty);
     setMistakes(game.mistakes);
-    setElapsed(game.elapsed ?? 0);
+    const e = (game as { elapsed?: unknown }).elapsed;
+    setElapsed(typeof e === 'number' && Number.isFinite(e) && e >= 0 ? Math.floor(e) : 0);
   }
   createGame(difficulty: Difficulty): void {
     const game = generateSudoku(difficulty);

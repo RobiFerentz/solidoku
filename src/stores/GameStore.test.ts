@@ -92,4 +92,24 @@ describe('GameStore', () => {
     expect(gameController.loadGame()).toBe(true);
     expect(gameController.elapsedSeconds).toBe(0);
   });
+
+  it.each([['65'], [null], [NaN], [-5]])('wrong-type elapsed %p loads defaulting to 0', (bad) => {
+    gameController.createGame('Easy');
+    const raw = JSON.parse(atob(localStorage.getItem('game')!));
+    raw.elapsed = bad;
+    localStorage.setItem('game', btoa(JSON.stringify(raw)));
+    expect(gameController.loadGame()).toBe(true);
+    expect(gameController.elapsedSeconds).toBe(0);
+    gameController.tickSecond();
+    expect(gameController.elapsedSeconds).toBe(1);
+  });
+
+  it('fractional elapsed floors to whole seconds', () => {
+    gameController.createGame('Easy');
+    const raw = JSON.parse(atob(localStorage.getItem('game')!));
+    raw.elapsed = 1.9;
+    localStorage.setItem('game', btoa(JSON.stringify(raw)));
+    expect(gameController.loadGame()).toBe(true);
+    expect(gameController.elapsedSeconds).toBe(1);
+  });
 });

@@ -94,4 +94,43 @@ describe('GameContainer with NumberPad', () => {
       vi.useRealTimers();
     }
   });
+
+  it('does not stack intervals under rapid blur/focus cycles', async () => {
+    vi.useFakeTimers();
+    try {
+      const container = document.createElement('div');
+      document.body.append(container);
+      const dispose = render(() => <GameContainer onGameSolved={() => {}} />, container);
+      try {
+        const before = gameController.elapsedSeconds;
+        for (let i = 0; i < 5; i++) {
+          window.dispatchEvent(new Event('blur'));
+          window.dispatchEvent(new Event('focus'));
+        }
+        await vi.advanceTimersByTimeAsync(3000);
+        expect(gameController.elapsedSeconds).toBe(before + 3);
+      } finally {
+        dispose();
+        container.remove();
+      }
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('stops ticking after unmount (exit to menu)', async () => {
+    vi.useFakeTimers();
+    try {
+      const container = document.createElement('div');
+      document.body.append(container);
+      const dispose = render(() => <GameContainer onGameSolved={() => {}} />, container);
+      const before = gameController.elapsedSeconds;
+      dispose();
+      await vi.advanceTimersByTimeAsync(5000);
+      expect(gameController.elapsedSeconds).toBe(before);
+      container.remove();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
