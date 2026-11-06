@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render } from 'solid-js/web';
 import { GameContainer } from './GameContainer';
 import { gameController } from './stores/GameStore';
@@ -70,6 +70,28 @@ describe('GameContainer with NumberPad', () => {
     } finally {
       dispose();
       container.remove();
+    }
+  });
+
+  it('displays timer MM:SS and advances each second while unsolved', async () => {
+    vi.useFakeTimers();
+    try {
+      const container = document.createElement('div');
+      document.body.append(container);
+      const dispose = render(() => <GameContainer onGameSolved={() => {}} />, container);
+      try {
+        const info = container.querySelector('[class*="info"]')!.textContent;
+        expect(info).toMatch(/00:00/);
+        const before = gameController.elapsedSeconds;
+        await vi.advanceTimersByTimeAsync(3000);
+        expect(gameController.elapsedSeconds).toBe(before + 3);
+        expect(container.querySelector('[class*="info"]')!.textContent).toMatch(/00:0/);
+      } finally {
+        dispose();
+        container.remove();
+      }
+    } finally {
+      vi.useRealTimers();
     }
   });
 });

@@ -1,9 +1,10 @@
-import { For, createSignal } from 'solid-js';
+import { For, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { NumberSquare } from './NumberSquare';
 import { NumberPad } from './NumberPad';
 import styles from './GameContainer.module.css';
 import { gameController } from './stores/GameStore';
 import { WinModal } from './WinModal';
+import { formatTime } from './game/format-time';
 
 type GameContainerProps = {
   onGameSolved: () => void;
@@ -60,10 +61,64 @@ export const GameContainer = (props: GameContainerProps) => {
     return selected()?.x === x && selected()?.y === y;
   };
 
+  let timer: ReturnType<typeof setInterval> | undefined;
+  const stop = () => {
+    if (timer !== undefined) {
+      clearInterval(timer);
+      timer = undefined;
+    }
+  };
+  const start = () => {
+    stop();
+    timer = setInterval(() => {
+      if (gameController.isSolved) {
+        stop();
+        return;
+      }
+      gameController.tickSecond();
+      gameController.saveGame();
+    }, 1000);
+  };
+  const onVisibilityChange = () => {
+    if (document.hidden) {
+      stop();
+      gameController.saveGame();
+    } else if (!gameController.isSolved) {
+      start();
+    }
+  };
+  const onBlur = () => {
+    stop();
+    gameController.saveGame();
+  };
+  const onFocus = () => {
+    if (!gameController.isSolved) start();
+  };
+
+  onMount(() => {
+    if (!gameController.isSolved) start();
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    window.addEventListener('focus', onFocus);
+    window.addEventListener('blur', onBlur);
+  });
+
+  createEffect(() => {
+    if (gameController.isSolved) stop();
+  });
+
+  onCleanup(() => {
+    stop();
+    document.removeEventListener('visibilitychange', onVisibilityChange);
+    window.removeEventListener('focus', onFocus);
+    window.removeEventListener('blur', onBlur);
+    gameController.saveGame();
+  });
+
   return (
     <>
       <div class={styles.info}>
         <span>Difficulty: {gameController.difficulty}</span>
+        <span>Time: {formatTime(gameController.elapsedSeconds)}</span>
         <span>Mistakes: {gameController.mistakes}</span>
       </div>
       <div class={styles.container} role="grid" aria-label="Sudoku board">
@@ -88,7 +143,7 @@ export const GameContainer = (props: GameContainerProps) => {
         </For>
       </div>
       <NumberPad onInput={handlePadInput} onErase={handlePadErase} disabled={isPadDisabled()} />
-      <WinModal open={gameController.isSolved} onClose={onWinConfirm} />
+      <WinModal open={gameController.isSolved} onClose={onWinConfirm} elapsedSeconds={gameController.elapsedSeconds} />
     </>
   );
 };
