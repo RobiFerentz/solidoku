@@ -105,7 +105,7 @@ export function generateSudoku(difficulty: Difficulty): Game {
   // Remove numbers to create a puzzle
   removeNumbers(board, getNumberToRemove(difficulty)); // Adjust the number of numbers removed to control difficulty
 
-  return { solution, puzzle: board, difficulty, mistakes: 0, current: structuredClone(board) };
+  return { solution, puzzle: board, difficulty, mistakes: 0, current: structuredClone(board), elapsed: 0 };
 }
 
 function solveSudoku(board: number[][]): boolean {
