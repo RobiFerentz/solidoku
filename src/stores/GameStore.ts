@@ -9,6 +9,7 @@ const [solution, setSolution] = createStore<number[][]>([]);
 const [current, setCurrent] = createStore<number[][]>([]);
 const [difficulty, setDifficulty] = createSignal<Difficulty>('Easy');
 const [mistakes, setMistakes] = createSignal<number>(0);
+const [elapsed, setElapsed] = createSignal<number>(0);
 
 class GameController {
   private storeGame(game: Game) {
@@ -17,6 +18,7 @@ class GameController {
     setCurrent(reconcile(game.current));
     setDifficulty(game.difficulty);
     setMistakes(game.mistakes);
+    setElapsed(game.elapsed ?? 0);
   }
   createGame(difficulty: Difficulty): void {
     const game = generateSudoku(difficulty);
@@ -44,6 +46,14 @@ class GameController {
     return mistakes();
   }
 
+  get elapsedSeconds(): number {
+    return elapsed();
+  }
+
+  tickSecond(): void {
+    setElapsed(this.elapsedSeconds + 1);
+  }
+
   incrementMistakes(): void {
     setMistakes(this.mistakes + 1);
   }
@@ -60,7 +70,7 @@ class GameController {
     if (!this.currentBoard.length) return;
     localStorage.setItem(
       'game',
-      btoa(JSON.stringify({ solution, puzzle, current, difficulty: difficulty(), mistakes: mistakes() }))
+      btoa(JSON.stringify({ solution, puzzle, current, difficulty: difficulty(), mistakes: mistakes(), elapsed: elapsed() }))
     );
   }
 
@@ -98,6 +108,7 @@ class GameController {
       current: [],
       difficulty: 'Easy',
       mistakes: 0,
+      elapsed: 0,
     });
   }
 
